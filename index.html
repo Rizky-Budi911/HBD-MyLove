@@ -279,6 +279,33 @@
         .empty-page {
             background: linear-gradient(135deg, rgba(255, 230, 248, 0.5), rgba(255, 179, 186, 0.3));
         }
+
+        /* === Mobile Optimization for Stickers === */
+@media (max-width: 768px) {
+    .cinnamoroll-gif {
+        width: 60px;
+        height: 60px;
+        opacity: 0.7;
+    }
+
+    /* Atur posisi ulang supaya tidak nutup teks */
+    .cinnamoroll-gif:nth-child(1),
+    .cinnamoroll-gif:nth-child(3) {
+        top: 5%;
+    }
+
+    .cinnamoroll-gif:nth-child(2),
+    .cinnamoroll-gif:nth-child(4) {
+        top: 70%;
+    }
+
+    /* Sembunyikan 2 sticker terbawah di HP */
+    .cinnamoroll-gif:nth-child(5),
+    .cinnamoroll-gif:nth-child(6) {
+        display: none;
+    }
+}
+        
     </style>
 </head>
 <body>
@@ -415,3 +442,4 @@
     </script>
 </body>
 </html>
+
