@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ffe6f8, #ffb3ba, #ff69b4);
+            color: #333;
+            overflow: hidden;
+            position: relative;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        /* Floating hearts animation */
+        .floating-hearts {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 24px;
+            color: #ff69b4;
+            animation: floatUp 5s linear infinite;
+            opacity: 0.7;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Book container - FULL PAGE */
+        .book-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 2000px;
+            z-index: 2;
+        }
+
+        .book {
+            width: 90%;
+            max-width: 800px;
+            height: 85vh;
+            position: relative;
+            display: flex;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+        }
+
+        .page {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            background: rgba(255, 255, 255, 0.98);
+            padding: 40px 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            overflow-y: auto;
+            overflow-x: hidden;
+            border-radius: 10px;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        /* Custom scrollbar */
+        .page::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .page::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .page::-webkit-scrollbar-thumb {
+            background: #ff69b4;
+            border-radius: 10px;
+        }
+
+        .page.fade-out {
+            opacity: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .book {
+                width: 95%;
+                height: 80vh;
+            }
+            .page {
+                padding: 30px 20px;
+            }
+        }
+
+        .center {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .photo {
+            width: 230px;
+            height: 210px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 5px solid #ff69b4;
+            box-shadow: 0 0 20px rgba(255, 105, 180, 0.5);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 20px rgba(255, 105, 180, 0.5); }
+            to { box-shadow: 0 0 30px rgba(255, 105, 180, 0.8); }
+        }
+
+        h1 {
+            font-size: 24px;
+            margin: 15px 0;
+            color: #ff1493;
+        }
+
+        h2 {
+            font-size: 20px;
+            margin: 10px 0;
+            color: #ff69b4;
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        .cake-icon {
+            width: 150px;
+            height: 150px;
+            margin-top: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .memory-item {
+            margin: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .memory-photo {
+            width: 300px;
+            height: 300px;
+            border-radius: 10px;
+            object-fit: cover;
+            margin-bottom: 10px;
+            border: 3px solid #ff69b4;
+            transition: transform 0.3s ease;
+        }
+
+        .memory-photo:hover {
+            transform: scale(1.1);
+        }
+
+        .cinnamoroll-gif {
+            width: 120px;
+            height: 120px;
+            position: fixed;
+            animation: float 3s ease-in-out infinite;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        .cinnamoroll-gif:nth-child(1) { top: 10%; left: 3%; }
+        .cinnamoroll-gif:nth-child(2) { top: 40%; left: 8%; animation-delay: 1s; }
+        .cinnamoroll-gif:nth-child(3) { top: 12%; right: 3%; animation-delay: 2s; }
+        .cinnamoroll-gif:nth-child(4) { top: 45%; right: 6%; animation-delay: 3s; }
+        .cinnamoroll-gif:nth-child(5) { bottom: 15%; left: 5%; animation-delay: 1.5s; }
+        .cinnamoroll-gif:nth-child(6) { bottom: 18%; right: 4%; animation-delay: 2.5s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .nav-buttons {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            display: flex;
+            gap: 15px;
+        }
+
+        button {
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(255, 20, 147, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(255, 20, 147, 0.6);
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        .music-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+        }
+
+        audio {
+            display: none;
+        }
+
+        /* Confetti effect */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #ff69b4;
+            animation: fall 3s linear infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); }
+            100% { transform: translateY(100vh) rotate(360deg); }
+        }
+
+        /* Empty page styling */
+        .empty-page {
+            background: linear-gradient(135deg, rgba(255, 230, 248, 0.5), rgba(255, 179, 186, 0.3));
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Hearts -->
+    <div class="floating-hearts" id="hearts"></div>
+
+    <!-- Confetti -->
+    <div id="confetti-container"></div>
+
+    <!-- Cinnamoroll Stickers - Outside the book -->
+    <div id="stickers-container">
+        <img src="cinnamoroll-cute.gif" alt="Cinnamoroll GIF" class="cinnamoroll-gif">
+        <img src="cute2.gif" alt="Cinnamoroll GIF" class="cinnamoroll-gif">
+        <img src="nailong.gif" alt="Cinnamoroll GIF" class="cinnamoroll-gif">
+        <img src="ride-bear.gif" alt="Cinnamoroll GIF" class="cinnamoroll-gif">
+        <img src="cinnamoroll2.gif" alt="Cinnamoroll GIF" class="cinnamoroll-gif">
+        <img src="cinnamoroll3.gif" alt="Cinnamoroll GIF" class="cinnamoroll-gif">
+    </div>
+
+    <!-- Background Music -->
+    <audio id="bg-music" loop>
+        <source src="Virgoun_Last_Child_-_Surat_Cinta_Untuk_Starla_(mp3.pm).mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <button onclick="toggleMusic()" class="music-btn">🎵 Play/Stop Music</button>
+
+    <!-- Book Container - SINGLE PAGE -->
+    <div class="book-container">
+        <div class="book">
+            <div class="page" id="main-page"></div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-buttons">
+        <button onclick="showPage(1)">Page 1</button>
+        <button onclick="showPage(2)">Page 2</button>
+        <button onclick="showPage(3)">Page 3</button>
+    </div>
+
+    <script>
+        const mainPage = document.getElementById('main-page');
+        const heartsContainer = document.getElementById('hearts');
+        const confettiContainer = document.getElementById('confetti-container');
+        let currentPage = 1;
+
+        // Page contents
+        const pageContents = {
+            1: `
+                <div class="center">
+                    <img src="WhatsApp Image 2026-01-27 .jpeg" alt="Foto Incessku" class="photo">
+                    <h1>👑 Queeni Anaya Ciara Keyla Prawira 👑</h1>
+                    <h2>Happy Birthday Incess Kuuu! 🎉</h2>
+                    <img src="HBD ayang.jpeg" alt="Cake Icon" class="cake-icon">
+                    <p style="margin-top: 30px; font-size: 18px; color: #ff1493;">Cieeee nambah umur cantikk nyaa akuuu... 💖</p>
+                </div>
+            `,
+            2: `
+                <h1>💕Our Memories Over the Past Few Months 💕</h1>
+                <div class="memory-item">
+                    <img src="Quality Restoration-Ultra HD-Screenshot 2025-12-06 233357.jpeg" alt="Memory 1" class="memory-photo">
+                    <p> Inget ga pas date kita pertama kali di roblox, kita date di wasabi ini kamuu aku peluk pas lagi afk wkwk! 😍</p>
+                </div>
+                <div class="memory-item">
+                    <img src="Quality Restoration-HD-Screenshot 2025-12-25 001621.jpeg" alt="Memory 2" class="memory-photo">
+                    <p>Nah ini another date kita di roblox, kali ini di mount dukun, kalo ga salah ini pas kamu pulang dari palembang cmiiw. 💖</p>
+                </div>
+                <div class="memory-item">
+                    <img src="WhatsApp Image 2026-02-02 at 22.42.34.jpeg" alt="Memory 3" class="memory-photo">
+                    <p>Nah ini first date RL kita di hari minggu kemarin, aslii akuu ga nyangka kamuu lebih cakep dari foto yang kamu kirim aku seneng deh bisa jadi pacar kamu. 💕</p>
+                </div>
+            `,
+            3: `
+                <div class="center" style="padding: 0 40px;">
+                    <h1>Dear Kiara,</h1>
+                    <p style="margin: 20px 0; font-size: 16px; line-height: 1.8;">Selamat ulang tahun yaaa cantikkkk 🎉🎉🎉. Di hari yang spesial ini aku mau bilang terima kasih karena sudah hadir di hidupku dan bikin hari-hariku jadi lebih hangat dari yang aku bayangkan. Kamu itu bukan cuma seseorang yang aku sayang, tapi juga rumah tempat aku pengin pulang.</p>
+                    <p style="margin: 20px 0; font-size: 16px; line-height: 1.8;">Semoga di umur yang baru ini, kamu selalu dikelilingi hal-hal baik, mimpi-mimpi kamu satu per satu tercapai, dan kalaupun capek, ingat… aku selalu ada di samping kamu. Aku bakal ada terus di sisi kamu apapun yang terjadi. Kalau memang ada suatu masalah di hubungan kita, Kita coba hadapi bersama dengan baik-baik yaa sayanggg.</p>
+                    <p style="margin: 20px 0; font-size: 16px; line-height: 1.8;">Tetap jadi kamu yang sekarang ya cantikkk. Yang pengertian, tulus, dan selalu berhasil bikin aku jatuh cinta lagi, lagi, dan lagi. Aku sayangggg banget sama kamuuu. Hari ini, besok, dan seterusnya 💖😘💖.</p>
+                    <p style="font-weight: bold; margin-top: 30px; font-size: 16px;">💕 With all my love, Boybiee 💕</p>
+                </div>
+            `
+        };
+
+        function showPage(pageNumber) {
+            if (pageNumber === currentPage) return;
+
+            mainPage.classList.add('fade-out');
+
+            setTimeout(() => {
+                mainPage.innerHTML = pageContents[pageNumber];
+                mainPage.classList.remove('fade-out');
+
+                // Reset scroll to top
+                mainPage.scrollTop = 0;
+
+                currentPage = pageNumber;
+            }, 300);
+        }
+
+        // Initialize with page 1 content immediately
+        mainPage.innerHTML = pageContents[1];
+
+        // Generate floating hearts
+        function createHearts() {
+            for (let i = 0; i < 20; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 5 + 's';
+                heartsContainer.appendChild(heart);
+            }
+        }
+
+        // Generate confetti
+        function createConfetti() {
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.animationDelay = Math.random() * 3 + 's';
+                confetti.style.background = ['#ff69b4', '#ff1493', '#ffb3ba'][Math.floor(Math.random() * 3)];
+                confettiContainer.appendChild(confetti);
+            }
+        }
+
+        createHearts();
+        createConfetti();
+
+        function toggleMusic() {
+            const music = document.getElementById('bg-music');
+            music.paused ? music.play() : music.pause();
+        }
+    </script>
+</body>
+</html>
